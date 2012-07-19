@@ -1,4 +1,8 @@
 Betakit::Application.configure do
+  # Auth Settings for development
+  config.auth_username = "admin"
+  config.auth_password = "password"
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
