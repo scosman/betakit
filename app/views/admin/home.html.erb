@@ -1,7 +1,15 @@
 
-<h1>Welcome</h1>
+<h1>Betakit</h1>
 
-<% @users.each do |user| %>
-  <div><%= user.email %></div>
+<h2>Users</h2>
+<% @users.each_with_index do |user,index| %>
+  <div class="row <%= index % 2 == 0 ? "altRow" : ''%>">
+    <span class="email"><%= user.email %></span>
+    <% if user.state == User::STATES[:requested] %>
+      <span class="inviteBtn">Invite</span>
+    <% else %>
+      Invite Sent
+    <% end %>
+  </div>
 <% end %>
 
