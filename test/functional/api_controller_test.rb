@@ -15,7 +15,8 @@ class ApiControllerTest < ActionController::TestCase
      assert_response :success
      assert User.count == initialCount + 1
      assert @response.body == "true"
-     assert assert User.last.email == "test@gmail.com"
+     assert User.last.email == "test@gmail.com"
+     assert User.last.state = User.STATES.requested
    end
 
 
