@@ -6,7 +6,7 @@
   <div class="row <%= index % 2 == 0 ? "altRow" : ''%>">
     <span class="email"><%= user.email %></span>
     <% if user.state == User::STATES[:requested] %>
-      <span class="inviteBtn">Invite</span>
+      <span class="inviteBtn" email="<%= user.email %>">Invite</span>
     <% else %>
       Invite Sent
     <% end %>

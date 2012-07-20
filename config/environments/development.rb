@@ -3,6 +3,10 @@ Betakit::Application.configure do
   config.auth_username = "admin"
   config.auth_password = "password"
 
+  # Email settings for dev
+  config.email_from_address = "test@test.com"
+  config.email_invite_subject = "Welcome to Betakit"
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on

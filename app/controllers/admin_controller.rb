@@ -5,4 +5,19 @@ class AdminController < ApplicationController
     @users = User.order("created_at DESC")
   end
 
+  def invite_user
+    user = User.find_by_email params[:email]
+    if !user
+      render :text => "false", :status => 400
+    end 
+
+    begin
+      BetaMailer.invite_mail(user).deliver
+      render :text => "true"
+      #TODO ERRORS
+    rescue
+      render :text => "false", :status => 400
+    end
+  end
+
 end

@@ -15,7 +15,12 @@ var AdminHomeView = Backbone.View.extend({
   render: function() {
   },
 
-  invite: function() {
+  invite: function(event) {
+    var email = $(event.target).attr("email");
+
+    $.ajax({
+      url: "/api/invite_user?email=" + email,
+    });
     alert('invite');
   } 
 
