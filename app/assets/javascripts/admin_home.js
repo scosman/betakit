@@ -13,9 +13,15 @@ var AdminHomeView = Backbone.View.extend({
     "click #importShowBtn": "showImportSection",
     "click #hideImportBtn": "hideImportSection",
     "click #importBtn": "importEmails",
+    "click #exportBtn": "exportEmails",
   },
 
   render: function() {
+  },
+
+  exportEmails: function() 
+  {
+    window.open("/api/export_emails");
   },
 
   importEmails: function()

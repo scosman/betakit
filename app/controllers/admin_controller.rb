@@ -45,4 +45,9 @@ class AdminController < ApplicationController
     render :text => "Imported " + total.to_s + " of " + emails.length.to_s + ". " + alreadyImported.to_s + " previously imported. " + (emails.length - total - alreadyImported).to_s + " errors." 
   end
 
+  def export_emails
+    csv = User.all.collect {|u| u.email}.join(", ")
+    render :text => csv
+  end
+
 end
