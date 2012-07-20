@@ -27,9 +27,9 @@ var AdminHomeView = Backbone.View.extend({
   importEmails: function()
   {
     emails = $('#importText').val();
-    $('#importStatus').html("");
+    $('#importStatus').html("importing...");
 
-    $.post("/api/import_csv",
+    $.post("/api/import_emails",
         {emails: emails},
         function(data, textStatus, xhr)
         {

@@ -23,9 +23,9 @@ class AdminController < ApplicationController
     end
   end
 
-  def import_csv
+  def import_emails
     emailString = params[:emails]
-    emails = emailString.split(",")
+    emails = emailString.split(/[,;\s]+/)
     total = 0
     alreadyImported = 0
 
