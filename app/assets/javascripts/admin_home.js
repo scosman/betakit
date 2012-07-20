@@ -30,7 +30,6 @@ var AdminHomeView = Backbone.View.extend({
           $('[inviteSection="' + email + '"]').html("hmmmm, there may have been a problem...");
         },
     });
-    alert('invite');
   } 
 
 });
