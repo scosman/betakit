@@ -49,5 +49,4 @@ class AdminController < ApplicationController
     csv = User.all.collect {|u| u.email}.join(", ")
     render :text => csv
   end
-
 end
