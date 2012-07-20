@@ -7,6 +7,9 @@ Betakit::Application.configure do
   config.email_from_address = "test@test.com"
   config.email_invite_subject = "Welcome to Betakit"
 
+  # App Secret
+  config.app_secret = "1234"
+
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on

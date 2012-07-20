@@ -9,6 +9,9 @@ Rails.configuration.auth_password = ENV["admin_password"]
 Rails.configuration.email_from_address = ENV["email_from_address"]
 Rails.configuration.email_invite_subject = ENV["email_invite_subject"]
 
+# App secret
+Rails.configuration.app_secret = ENV["app_secret"]
+
 # SMTP settings
 Rails.configuration.action_mailer.delivery_method = :smtp
 Rails.configuration.action_mailer.smtp_settings = {
