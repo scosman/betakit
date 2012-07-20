@@ -9,10 +9,13 @@ class AdminController < ApplicationController
     user = User.find_by_email params[:email]
     if !user
       render :text => "false", :status => 400
+      return
     end 
 
     begin
       BetaMailer.invite_mail(user).deliver
+      user.state = User::STATES[:invited]
+      user.save
       render :text => "true"
       #TODO ERRORS
     rescue
