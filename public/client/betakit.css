@@ -1,0 +1,24 @@
+
+.betakitShareTitle
+{
+  font-size: 28px;
+}
+
+.betakitShareSection
+{
+  margin-top:20px;
+  font-size:22px;
+  margin-bottom: 5px;
+}
+
+#betakitButton
+{
+  -webkit-appearance: button;
+  font-size:22px;
+  line-height:30px;
+}
+
+#betakitEmail
+{
+  font-size:22px;
+}
