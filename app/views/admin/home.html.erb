@@ -1,6 +1,17 @@
 
 <h1>Betakit</h1>
 
+<input type="button" value="Import Emails" id="importShowBtn" />
+
+<div id="importSection">
+  <h2>Import Email Addresses</h2>
+  <textarea id="importText">Enter comma sepeated email addresses here to import. No fancy formatting supported yet.</textarea>
+  <br />
+  <input type="button" value="Import" id="importBtn" />
+  <input type="button" value="Hide" id="hideImportBtn" />
+  <span id="importStatus"></span>
+</div>
+
 <h2>Users</h2>
 <% @users.each_with_index do |user,index| %>
   <div class="row <%= index % 2 == 0 ? "altRow" : ''%>">

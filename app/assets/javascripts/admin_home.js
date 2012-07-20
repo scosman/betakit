@@ -10,9 +10,36 @@ var AdminHomeView = Backbone.View.extend({
 
   events: {
     "click .inviteBtn": "invite",
+    "click #importShowBtn": "showImportSection",
+    "click #hideImportBtn": "hideImportSection",
+    "click #importBtn": "importEmails",
   },
 
   render: function() {
+  },
+
+  importEmails: function()
+  {
+    emails = $('#importText').val();
+    $('#importStatus').html("");
+
+    $.post("/api/import_csv",
+        {emails: emails},
+        function(data, textStatus, xhr)
+        {
+          $('#importStatus').html(data);
+        },
+        "text");
+  },
+
+  showImportSection: function()
+  {
+    $('#importSection').slideDown();
+  },
+
+  hideImportSection: function()
+  {
+    $('#importSection').slideUp();
   },
 
   invite: function(event) {

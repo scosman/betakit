@@ -23,4 +23,26 @@ class AdminController < ApplicationController
     end
   end
 
+  def import_csv
+    emailString = params[:emails]
+    emails = emailString.split(",")
+    total = 0
+    alreadyImported = 0
+
+    emails.each do |email|
+      trimmed = email.strip
+      user = User.new
+      user.email = trimmed
+      saved = user.save
+     if saved
+       total += 1
+     else 
+       user = User.find_by_email trimmed
+       alreadyImported += 1 if !user.nil? 
+     end
+    end
+
+    render :text => "Imported " + total.to_s + " of " + emails.length.to_s + ". " + alreadyImported.to_s + " previously imported. " + (emails.length - total - alreadyImported).to_s + " errors." 
+  end
+
 end
