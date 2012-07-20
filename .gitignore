@@ -1,3 +1,7 @@
+
+# Ignore email config used for dev
+/config/initializers/personal_email.rb
+
 # Ignore bundler config
 /.bundle
 
