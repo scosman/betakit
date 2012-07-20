@@ -7,7 +7,7 @@ class AdminController < ApplicationController
 
   def invite_user
     user = User.find_by_email params[:email]
-    if !user
+    if user.nil?
       render :text => "false", :status => 400
       return
     end 
