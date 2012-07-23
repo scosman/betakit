@@ -14,16 +14,29 @@
 </div>
 
 <h2>Users</h2>
+<div class="row headerRow">
+  <span class="email">Email</span>
+  <span class="inviteStatus">Invite Status</span>
+  <span class="timeago">Request Time</span>
+  <span class="referrals">Referrals</span>
+</div>
 <% @users.each_with_index do |user,index| %>
   <div class="row <%= index % 2 == 0 ? "altRow" : ''%>">
     <span class="email"><%= user.email %></span>
     <% if user.state == User::STATES[:requested] %>
-      <span inviteSection="<%= user.email %>">
+      <span inviteSection="<%= user.email %>" class="inviteStatus">
         <span class="inviteBtn" email="<%= user.email %>">Invite</span>
       </span>
     <% else %>
-      Invite Sent
+      <span class="inviteStatus">Invite Sent</span>
     <% end %>
+    <span class="timeago"><%= time_ago_in_words(user.created_at) %> ago</span>
+    <span class="referrals"><%= user.referrals.count %></span>
+    <span class="stats">
+      <% user.stats.each_pair do |k,v| %>
+        <%= k %>=<%= v %>,
+      <% end %>
+    </span>
   </div>
 <% end %>
 

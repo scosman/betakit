@@ -50,13 +50,13 @@ var AdminHomeView = Backbone.View.extend({
 
   invite: function(event) {
     var email = $(event.target).attr("email");
-    $('[inviteSection="' + email + '"]').html("sending email... you better hope they like it");
+    $('[inviteSection="' + email + '"]').html("sending email...");
 
     $.ajax({
       url: "/api/invite_user?email=" + encodeURIComponent(email),
       success: function(data, textStatus, xhr)
         {
-          $('[inviteSection="' + email + '"]').html("invite sent. time to pray");
+          $('[inviteSection="' + email + '"]').html("Invite Sent");
         },
       error: function(xhr, tStatus, error)
         {
