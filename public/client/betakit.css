@@ -1,27 +1,27 @@
 
-/* TODO P0 - font sizes to percentages to fit surrounding page better */
 .betakitShareTitle
 {
-  font-size: 28px;
+  font-size: 200%;
 }
 
 .betakitShareSection
 {
   margin-top:20px;
-  font-size:22px;
+  font-size:150%;
   margin-bottom: 5px;
 }
 
 #betakitButton
 {
   -webkit-appearance: button;
-  font-size:22px;
-  line-height:30px;
+  font-size:140%;
+  line-height:140%;
 }
 
 #betakitEmail
 {
-  font-size:22px;
+  font-size:140%;
+  min-width:300px;
 }
 
 .betakitShareLink
