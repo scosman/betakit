@@ -12,6 +12,7 @@ class ApiController < ApplicationController
     user = User.new
     user.email = email
     user.referer = referer
+    user.user_agent = request.env['HTTP_USER_AGENT']
     success = user.save
 
     if success

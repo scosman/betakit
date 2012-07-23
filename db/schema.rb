@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120722222814) do
+ActiveRecord::Schema.define(:version => 20120723172440) do
 
   create_table "users", :force => true do |t|
     t.string   "email"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20120722222814) do
     t.integer  "state",      :default => 0
     t.text     "stats"
     t.integer  "referer_id"
+    t.string   "user_agent"
   end
 
 end
