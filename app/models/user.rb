@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   belongs_to :referer, :class_name => "User"
   store :stats, accessors: [ :share_clicks, :referals ]
 
-  validates :email, :presence => true, :uniqueness => true, :format => {:with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i}
+  validates :email, :presence => true, :uniqueness => {:case_sensitive => false}, :format => {:with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i}
 
   # Range is from STATES (see below)
   validates :state, :presence => true, :inclusion => 0..1
