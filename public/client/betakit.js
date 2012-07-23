@@ -82,7 +82,7 @@ Betakit.shareClicked = function(event)
 Betakit.generateShareLink = function(referralCode)
 {
   // Use the configured url, if missing, current url
-  var baseUrl = Betakit.shareLink || location.href;
+  var baseUrl = Betakit.shareUrl || location.href;
 
   // remove any old "bkref" parameters, if present
   var match = (new RegExp('[?|&]bkref=' + '([^&;]+?)(&|;|$)').exec(baseUrl));
