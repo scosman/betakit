@@ -17,7 +17,6 @@ class AdminController < ApplicationController
       user.state = User::STATES[:invited]
       user.save
       render :text => "true"
-      #TODO ERRORS
     rescue
       render :text => "false", :status => 400
     end
