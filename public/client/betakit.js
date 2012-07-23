@@ -48,7 +48,12 @@ Betakit.getShareHtml = function(shareLink)
 
 Betakit.shareClicked = function(event)
 {
-  $.get(Betakit.url + "/api/increment_stat", {email: Betakit.userEmail, stat: "share_clicked"});
+  $.ajax({
+    url: Betakit.url + "/api/increment_stat", 
+    dataType: "jsonp",
+    data: {email: Betakit.userEmail, stat: "share_clicked"},
+    success: function(data, textStatus, xhr){}, // Nothing to do :|
+  });
 }
 
 Betakit.generateShareLink = function(referralCode)
@@ -90,20 +95,28 @@ Betakit.signUp = function()
 
   $.ajax({
     url:Betakit.url + "/api/request_invite?email=" + encodeURIComponent(email) + "&referral_code=" + referralCode,
+    dataType: "jsonp",
     success: function(data, textStatus, xhr)
       {
+        if (data.error)
+        {
+          this.error(xhr, textStatus, data.error);
+          return;
+        }
+
         $('#betakitSection').fadeOut(300, function()
           {
             // save for stats reporting (share clicks)
             Betakit.userEmail = email;
             
             // generate link to share
-            var shareLink = Betakit.generateShareLink(data);
+            var shareLink = Betakit.generateShareLink(data.referralCode);
             $('#betakitSection').html(Betakit.getShareHtml(shareLink));
             $('#betakitSection').slideDown();
             $('#shareButtonGroup > a').click(Betakit.shareClicked);
           });
       },
+    timeout: 10000,
     error: function(xhr, textStatus, error)
       {
         $('#betakitErrorArea').html("There was a problem. Please try again.");

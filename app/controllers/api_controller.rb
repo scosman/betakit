@@ -10,9 +10,9 @@ class ApiController < ApplicationController
     success = user.save
 
     if success
-      render :text => user.referral_code
+      render :json =>  {:referralCode => user.referral_code}.to_json, :callback => params[:callback]
     else
-      render :text => "false", :status => 400
+      render :json =>  {:error => "Could not save email"}.to_json, :callback => params[:callback]
     end
   end
 
@@ -20,18 +20,16 @@ class ApiController < ApplicationController
     user = User.find_by_email params[:email]
 
     if user.nil?
-      render :text => "", :status => 400
+      render :json =>  {:error => "No User"}.to_json, :callback => params[:callback]
     end
 
     success = user.increment_stat(params[:stat])
     
     if !success
-      render :text => "", :status => 400
+      render :json =>  {:error => "could not save"}.to_json, :callback => params[:callback]
     end
 
-    render :text => user.stats[params[:stat]].to_s
+    render :json =>  {:status => "OK"}.to_json, :callback => params[:callback]
   end
-
-
 
 end
