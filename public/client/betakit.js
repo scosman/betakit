@@ -1,14 +1,23 @@
 
 var Betakit = Betakit || {};
 
-Betakit.getShareHtml = function()
+// from http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
+Betakit.getURLParameter = function (name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+}
+
+Betakit.getShareHtml = function(shareLink)
 {
   var shareSection = "<div class='betakitShareTitle'>Thank you!</div>";
   shareSection += "<div class='betakitShareSubtitle'>We'll send you an invite soon.</div>";
   shareSection += "<div class='betakitShareSection'>Share</div>";
-  // JST for the share section (AddThis.com's sharing widget)
-  var JST = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<script type="text/javascript">\n  var addthis_share ={};\n  var Betakit = Betakit || {};\n  if (Betakit.shareUrl != undefined) addthis_share.url = Betakit.shareUrl;\n  if (Betakit.shareTitle != undefined) addthis_share.title = Betakit.shareTitle;\n  if (Betakit.shareDescripton != undefined) addthis_share.description = Betakit.shareDescripton;\n  if (Betakit.shareTwitterTemplate != undefined) \n  {\n    addthis_share.templates = {}; \n    addthis_share.templates.twitter = Betakit.shareTwitterTemplate;\n  }\n</script>\n\n<!-- AddThis BEGIN -->\n<div id="shareButtonGroup" class="addthis_toolbox addthis_default_style addthis_32x32_style">\n<a class="addthis_button_twitter"></a>\n<a class="addthis_button_facebook"></a>\n<a class="addthis_button_linkedin"></a>\n<a class="addthis_button_google_plusone_badge"></a>\n<a class="addthis_button_email"></a>\n<a class="addthis_button_compact"></a>\n</div>\n<div class="betakitShareSection">Follow Us</div>\n<div class="addthis_toolbox addthis_32x32_style addthis_default_style">\n<a class="addthis_button_facebook_follow" addthis:userid="ShoeboxApp"></a>\n<a class="addthis_button_twitter_follow" addthis:userid="getshoebox"></a>\n<a class="addthis_button_rss_follow" addthis:url="http://blog.couchlabs.com/rss"></a>\n</div>\n<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-500974530091d712"></script>\n<!-- AddThis END -->\n');}return __p.join('');};
-  shareSection += JST();
+  // HTML for the share section (AddThis.com's sharing widget)
+  // TODO P0 - Shoebox hardcoded in follow section
+  shareSection += '<script type="text/javascript">\n  var addthis_share ={};\n  var Betakit = Betakit || {};\n  addthis_share.url = "' + shareLink + '";\n  if (Betakit.shareTitle != undefined) addthis_share.title = Betakit.shareTitle;\n  if (Betakit.shareDescripton != undefined) addthis_share.description = Betakit.shareDescripton;\n  if (Betakit.shareTwitterTemplate != undefined) \n  {\n    addthis_share.templates = {}; \n    addthis_share.templates.twitter = Betakit.shareTwitterTemplate;\n  }\n</script>\n\n<!-- AddThis BEGIN -->\n<div id="shareButtonGroup" class="addthis_toolbox addthis_default_style addthis_32x32_style">\n<a class="addthis_button_twitter"></a>\n<a class="addthis_button_facebook"></a>\n<a class="addthis_button_linkedin"></a>\n<a class="addthis_button_google_plusone_badge"></a>\n<a class="addthis_button_email"></a>\n<a class="addthis_button_compact"></a>\n</div>\n<div class="betakitShareSection">Follow Us</div>\n<div class="addthis_toolbox addthis_32x32_style addthis_default_style">\n<a class="addthis_button_facebook_follow" addthis:userid="ShoeboxApp"></a>\n<a class="addthis_button_twitter_follow" addthis:userid="getshoebox"></a>\n<a class="addthis_button_rss_follow" addthis:url="http://blog.couchlabs.com/rss"></a>\n</div>\n<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-500974530091d712"></script>\n<!-- AddThis END -->\n';
+
+  // TODO P0 - setting to disable this section
+  shareSection += "<div class=\"betakitShareSection\">Referral Link</div>Share this link for referral credit:";
+  shareSection += "<a target='_blank' class='betakitShareLink' href='" + shareLink  + "'>" + shareLink + "</a>"
 
   return shareSection;
 };
@@ -18,12 +27,33 @@ Betakit.shareClicked = function(event)
   $.get("/api/increment_stat", {email: Betakit.userEmail, stat: "share_clicked"});
 }
 
+Betakit.generateShareLink = function(referralCode)
+{
+  // Use the configured url, if missing, current url
+  var baseUrl = Betakit.shareLink || location.href;
+
+  // remove any old "bkref" parameters, if present
+  var match = (new RegExp('[?|&]bkref=' + '([^&;]+?)(&|;|$)').exec(baseUrl));
+  if (match)
+  {
+    // substring(1)  because we want to leave the leading ? or &
+    baseUrl = baseUrl.replace(match[0].substring(1), "");
+  }
+
+  // add the refcode
+  baseUrl += (baseUrl.indexOf("?") == -1 ? "?" : "&");
+  baseUrl += "bkref=" + referralCode;
+
+  return baseUrl;
+}
+
 Betakit.signUp = function()
 {
   $('#betakitErrorArea').html("");
   var email = $('#betakitEmail').val();
   var emailRegex = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i;
   var validEmail = emailRegex.test(email);
+  var referralCode = Betakit.getURLParameter("bkref");
 
   if (!validEmail)
   {
@@ -35,13 +65,17 @@ Betakit.signUp = function()
   $('#betakitErrorArea').html("Signing up...");
 
   $.ajax({
-    url:Betakit.url + "/api/request_invite?email=" + encodeURIComponent(email),
+    url:Betakit.url + "/api/request_invite?email=" + encodeURIComponent(email) + "&referral_code=" + referralCode,
     success: function(data, textStatus, xhr)
       {
         $('#betakitSection').fadeOut(300, function()
           {
+            // save for stats reporting (share clicks)
             Betakit.userEmail = email;
-            $('#betakitSection').html(Betakit.getShareHtml());
+            
+            // generate link to share
+            var shareLink = Betakit.generateShareLink(data);
+            $('#betakitSection').html(Betakit.getShareHtml(shareLink));
             $('#betakitSection').slideDown();
             $('#shareButtonGroup > a').click(Betakit.shareClicked);
           });
