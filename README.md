@@ -3,7 +3,11 @@ Betakit
 
 A simple, powerful and hackable service for running a beta release with invite codes.
 
-TODO - add image of admin console and Share widget
+Preview
+-------
+
+![Share widget](https://s3.amazonaws.com/www.couchlabs.com/downloads/marketing/share.png)
+![Admin Console](https://s3.amazonaws.com/www.couchlabs.com/downloads/marketing/admin.png)
 
 Functionality
 -------------
