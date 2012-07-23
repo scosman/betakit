@@ -15,9 +15,11 @@ Betakit.getShareHtml = function(shareLink)
   // TODO P0 - Shoebox hardcoded in follow section
   shareSection += '<script type="text/javascript">\n  var addthis_share ={};\n  var Betakit = Betakit || {};\n  addthis_share.url = "' + shareLink + '";\n  if (Betakit.shareTitle != undefined) addthis_share.title = Betakit.shareTitle;\n  if (Betakit.shareDescripton != undefined) addthis_share.description = Betakit.shareDescripton;\n  if (Betakit.shareTwitterTemplate != undefined) \n  {\n    addthis_share.templates = {}; \n    addthis_share.templates.twitter = Betakit.shareTwitterTemplate;\n  }\n</script>\n\n<!-- AddThis BEGIN -->\n<div id="shareButtonGroup" class="addthis_toolbox addthis_default_style addthis_32x32_style">\n<a class="addthis_button_twitter"></a>\n<a class="addthis_button_facebook"></a>\n<a class="addthis_button_linkedin"></a>\n<a class="addthis_button_google_plusone_badge"></a>\n<a class="addthis_button_email"></a>\n<a class="addthis_button_compact"></a>\n</div>\n<div class="betakitShareSection">Follow Us</div>\n<div class="addthis_toolbox addthis_32x32_style addthis_default_style">\n<a class="addthis_button_facebook_follow" addthis:userid="ShoeboxApp"></a>\n<a class="addthis_button_twitter_follow" addthis:userid="getshoebox"></a>\n<a class="addthis_button_rss_follow" addthis:url="http://blog.couchlabs.com/rss"></a>\n</div>\n<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-500974530091d712"></script>\n<!-- AddThis END -->\n';
 
-  // TODO P0 - setting to disable this section
-  shareSection += "<div class=\"betakitShareSection\">Referral Link</div>Share this link for referral credit:";
-  shareSection += "<a target='_blank' class='betakitShareLink' href='" + shareLink  + "'>" + shareLink + "</a>"
+  if (!Betakit.hideReferralLink)
+  {
+    shareSection += "<div class=\"betakitShareSection\">Referral Link</div>Share this link for referral credit:";
+    shareSection += "<a target='_blank' class='betakitShareLink' href='" + shareLink  + "'>" + shareLink + "</a>"
+  }
 
   return shareSection;
 };
