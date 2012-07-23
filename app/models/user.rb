@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
     return (REFERRAL_START_VALUE + self.id).to_s(16)
   end
   def self.find_by_referral_code ref
+    return nil if ref.nil?
     id = ref.to_i(16) - REFERRAL_START_VALUE
     return User.find_by_id id 
   end
