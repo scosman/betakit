@@ -1,8 +1,13 @@
 class ApiController < ApplicationController
 
   def request_invite
-    referer = User.find_by_referral_code params[:referral_code]
+    existingUser = User.find_by_email params[:email]
+    if !existingUser.nil?
+      render :json =>  {:referralCode => existingUser.referral_code}.to_json, :callback => params[:callback]
+      return
+    end
 
+    referer = User.find_by_referral_code params[:referral_code]
     email = params[:email]
     user = User.new
     user.email = email
