@@ -4,6 +4,29 @@ var Betakit = Betakit || {};
 // helper from http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
 Betakit.getURLParameter = function (name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+};
+
+// runs right away, saves referral code to cookie
+(function() {
+  // check if the url contains a bkref (Betakit Referral Code)
+  var ref = Betakit.getURLParameter("bkref");
+  if (!ref) return;
+
+  // Save to a cookie to allow tracking referrals
+  document.cookie = "BetakitReferralCode=" + encodeURIComponent(ref) + ";path='/'";
+}());
+
+Betakit.getReferralCode = function()
+{
+  var refFromUrl = Betakit.getURLParameter("bkref");
+  if (refFromUrl) return refFromUrl;
+
+  var cookies = document.cookie.split('; ');
+  for (var i = 0, parts; (parts = cookies[i] && cookies[i].split('=')); i++) {
+    if (parts.shift() === "BetakitReferralCode") {
+      return decodeURIComponent(parts.join('='));
+    }
+  }
 }
 
 // TODO P1 - Move this to a JST
@@ -82,7 +105,7 @@ Betakit.signUp = function()
   var email = $('#betakitEmail').val();
   var emailRegex = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i;
   var validEmail = emailRegex.test(email);
-  var referralCode = Betakit.getURLParameter("bkref");
+  var referralCode = Betakit.getReferralCode();
 
   if (!validEmail)
   {
