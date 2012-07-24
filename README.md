@@ -63,6 +63,8 @@ Try signing in with the credentials you just set. Betakit is ready to start trac
 
 Now it's time to embed a "request an invite" widget onto your page. Want to try the widget before you install it? Go to http://YOUR\_HEROKU\_APP.herokuapp.com/client/clientTestPage.html
 
+If you want to create your own submission form, go ahead and skip this step. See the API section at the bottom for details and betakit.js for a sample.
+
 To install the widget, paste the code block below into your marketing website.
 
 IMPORTANT: be sure to set YOUR\_HEROKU\_APP in the code you copy and paste to the app you created in step 2.
