@@ -1,7 +1,7 @@
 Betakit
 =======
 
-A simple, powerful and hackable service for running a beta release with invite codes.
+A simple, powerful and hackable service for running a beta release with invite codes. Betakit includes a "request an invite" widget, social sharing, referral tracking, invite code generation, invite mailer and an admin interface.
 
 Preview
 -------
