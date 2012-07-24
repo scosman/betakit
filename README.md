@@ -108,14 +108,14 @@ IMPORTANT: if you set Betakit.shareUrl, referral counting will break unless the 
 <script src="http://YOUR_HEROKU_APP.herokuapp.com/client/betakit.js" type="text/javascript"></script>
 ```
 
-IMPORTANT: If you don't alreay use jQuery, include it in the head of your html document:
+IMPORTANT: If you don't already use jQuery, include it in the head of your html document:
 ```html
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 ```
 
 Test it out! The widget will take your email and show you sharing links. Refresh the admin console and you will see any users you added using the widget.
 
-You can now deploy your markting website.
+You can now deploy your marketing website.
 
 ### Step 6: Import existing users
 
@@ -143,7 +143,7 @@ Next you need an email to send users. We've included a template you can start fr
 
     cp app/views/beta_mailer/invite_mail_development.html.erb app/views/beta_mailer/invite_mail_production.html.erb
 
-Now edit the file app/views/beta_mailer/invite_mail_production.html.erb to make an awesome message to welcome new users. Open it in a browser to preview the html. Don't forget to leave `<%= @inviteCode %>` and `<%= @user.email %>`, these will be replaced with the user's invite code and email respectivly.
+Now edit the file app/views/beta_mailer/invite_mail_production.html.erb to make an awesome message to welcome new users. Open it in a browser to preview the html. Don't forget to leave `<%= @inviteCode %>` and `<%= @user.email %>`, these will be replaced with the user's invite code and email respectively.
 
 When you are done, deploy the template:
 
@@ -151,11 +151,11 @@ When you are done, deploy the template:
     git commit -m "Email invite template"
     git push heroku master
 
-You can now go the the admin console and send invite emails. I suggest you test it with your own email first to make sure the temaplte and SMTP settings are working.
+You can now go the the admin console and send invite emails. I suggest you test it with your own email first to make sure the template and SMTP settings are working.
 
-### Step 8: Integrate with you app
+### Step 8: Integrate with your app
 
-The final step is to integrate the invite code in your app. Just verify the code when the user create's an account. Since the invite code is a SHA1 hash calculated from your secret and the user's email, it can be checked offline and in any programming language.
+The final step is to integrate the invite code in your app. Just verify the code when the user creates an account. Since the invite code is a SHA1 hash calculated from your secret and the user's email, it can be checked offline and in any programming language.
 
     pseudocode:
     invite_code = SHA1(app_secret + lowercase(email)).substring(0,7)
@@ -169,7 +169,7 @@ The final step is to integrate the invite code in your app. Just verify the code
 API
 ---
 
-The folling endpoints are available for direct integration.
+The following endpoints are available for direct integration.
 
     /api/request_invite?email=email%40email.com&referral_code=OPTIONAL&callback=jsonpCallback
     descrition: requests an invite
