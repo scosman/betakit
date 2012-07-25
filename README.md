@@ -161,10 +161,13 @@ The final step is to integrate the invite code in your app. Just verify the code
     invite_code = SHA1(app_secret + lowercase(email)).substring(0,7)
 
 ```ruby
+  # ruby/rails example:
   invite_code = Digest::SHA1.hexdigest("YOUR_APP_SECRET" + email.downcase)[0,8]
   if (invite_code != params[:invite]) render :text => "Unauthorized", :status => 401
   # process valid user signup
 ```
+
+The same pattern can be done in any language. If you have a sample for PHP, Javascript or any others, just send a pull request and I'll add them to the readme. 
 
 API
 ---
