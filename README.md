@@ -67,7 +67,7 @@ If you want to create your own submission form, go ahead and skip this step. See
 
 To install the widget, paste the code block below into your marketing website.
 
-IMPORTANT: be sure to set YOUR\_HEROKU\_APP in the code you copy and paste to the app you created in step 2.
+IMPORTANT: be sure to set YOUR\_HEROKU\_APP in the code you copy and paste to the app you created in step 2 (3 places in total).
 
 ```html
     <link href="http://YOUR_HEROKU_APP.herokuapp.com/client/betakit.css" rel="stylesheet" type="text/css">
@@ -97,6 +97,7 @@ IMPORTANT: be sure to set YOUR\_HEROKU\_APP in the code you copy and paste to th
       </script>
       <!-- REQUIRED: path to your own hosted version of Betakit -->
       <script src="http://YOUR_HEROKU_APP.herokuapp.com/client/betakit.js" type="text/javascript"></script> 
+    </div>
 ```
 
 The CSS is designed to adopt the style of the page it's embedded in, but if your want more control, make a copy of betakit.css and tweak anything you like.
