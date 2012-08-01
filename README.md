@@ -146,6 +146,8 @@ Next you need an email to send users. We've included a template you can start fr
 
 Now edit the file app/views/beta_mailer/invite_mail_production.html.erb to make an awesome message to welcome new users. Open it in a browser to preview the html. Don't forget to leave `<%= @inviteCode %>` and `<%= @user.email %>`, these will be replaced with the user's invite code and email respectively.
 
+Check out the awesome open source templates provided by MailChimp as a starting point: [http://mailchimp.com/resources/html-email-templates/](templates).
+
 When you are done, deploy the template:
 
     git add app/views/beta_mailer/invite_mail_production.html.erb
