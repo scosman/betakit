@@ -30,7 +30,7 @@
         <% end %>
         <% @statistics.each_with_index do |stat, i| %>
           var columnData = [
-            <%= stat[:values].collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+            <%= stat[:values].collect{|s| "[new Date(#{s.time.to_i * 1000}),#{s.value}],"}.join %>
           ];
           var lastIndex = data.addRows(columnData.length);
           for (var i = 0; i < columnData.length; i++)

@@ -26,7 +26,7 @@
         data.addColumn('datetime', 'Date');
         data.addColumn('number', 'Value');
         data.addRows([
-          <%= @historyValues.collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+          <%= @historyValues.collect{|s| "[new Date(#{s.time.to_i * 1000}),#{s.value}],"}.join %>
         ]);
 
         // Set chart options
@@ -61,7 +61,7 @@
         <% end %>
         <% graph[:cohorts].each_with_index do |cohort, i| %>
           var columnData = [
-            <%= cohort[:values].collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+            <%= cohort[:values].collect{|s| "[new Date(#{s.time.to_i * 1000}),#{s.value}],"}.join %>
           ];
           var lastIndex = data.addRows(columnData.length);
           for (var i = 0; i < columnData.length; i++)
