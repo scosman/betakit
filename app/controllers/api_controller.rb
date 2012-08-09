@@ -22,6 +22,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # incriments user statistics
   def increment_stat
     user = User.find_by_email params[:email]
 
@@ -38,4 +39,22 @@ class ApiController < ApplicationController
     render :json =>  {:status => "OK"}.to_json, :callback => params[:callback]
   end
 
+  def set_app_stat
+    # check the signature
+    raise "no signature" if params[:signature].nil?
+    signedParams = request.query_string.first(request.query_string.rindex("&"))
+    raise "signature must be last" unless "signature" == request.query_string.split("&").last.split("=")[0]
+    raise "signature incorrect" unless params[:signature] == Digest::SHA1.hexdigest(signedParams + Rails.configuration.app_secret)
+
+    stat = Statistic.new
+    stat.time = params[:time].nil? ? Time.now : Time.at(params[:time])
+    stat.name = params[:name]
+    stat.value = Float(params[:value])
+    stat.sample_size = Integer(params[:sample_size])
+    stat.cohort_name = params[:cohort_name]
+    stat.cohort_group = params[:cohort_group]
+    stat.save!
+
+    render :json =>  {:status => "OK"}.to_json
+  end
 end

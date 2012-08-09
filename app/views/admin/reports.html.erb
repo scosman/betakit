@@ -1,0 +1,55 @@
+<% @statistics.each do |stat| %>
+  <a href="/report/<%= stat[:name] %>">
+    <div class="statHeader">
+      <div class="value"><%= stat[:lastValue].nil? ? "?" : stat[:lastValue].value %></div>
+      <div class="description"><%= stat[:name] %></div>
+    </div>
+  </a>
+<% end %>
+
+<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+    </script>
+
+  <div>
+    <script type="text/javascript">
+
+      google.setOnLoadCallback(drawMegaChart);
+
+      function drawMegaChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Date');
+        <% @statistics.each_with_index do |stat, i| %>
+          data.addColumn('number', '<%= stat[:name] %>');
+        <% end %>
+        <% @statistics.each_with_index do |stat, i| %>
+          var columnData = [
+            <%= stat[:values].collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+          ];
+          var lastIndex = data.addRows(columnData.length);
+          for (var i = 0; i < columnData.length; i++)
+          {
+            data.setValue(lastIndex-i, 0, columnData[i][0]); 
+            data.setValue(lastIndex-i, <%= i %>+1, columnData[i][1]);  
+          }
+        <% end %>
+
+        // Set chart options
+        var options = {'width':'100%',
+                       'height':400,
+                       'vAxis': {'minValue':0, 'maxValue': 100} };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div_all'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="chart_div_all"></div>
+  </div>
+

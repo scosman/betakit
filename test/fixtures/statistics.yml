@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  value: 1.5
+  cohort: 1
+  time: 2012-08-08 15:44:34
+
+two:
+  name: MyString
+  value: 1.5
+  cohort: 1
+  time: 2012-08-08 15:44:34

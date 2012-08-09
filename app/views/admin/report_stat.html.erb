@@ -1,0 +1,87 @@
+
+<h1><%= @statName %></h1>
+<% if !@lastValue.nil? %>
+  <h3>Last Value: <%= @lastValue.value.to_s %> (<%= time_ago_in_words(@lastValue.time) %>)</h3>
+<% end %>
+
+<!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+    </script>
+
+<!-- History --> 
+<% if !@historyValues.nil? && @historyValues.count > 1 %>
+  <div>
+    <script type="text/javascript">
+
+      google.setOnLoadCallback(drawChartHistory);
+
+      function drawChartHistory() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Date');
+        data.addColumn('number', 'Value');
+        data.addRows([
+          <%= @historyValues.collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+        ]);
+
+        // Set chart options
+        var options = {'title':'History',
+                       'width':'100%',
+                       'height':400,
+                       'legend':'none',
+                       'vAxis': {'minValue':0, 'maxValue':100}};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div_history'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="chart_div_history"></div>
+  </div>
+<% end %>
+
+<% @cohortGraphs.each_with_index do |graph, i| %>
+  <div>
+    <script type="text/javascript">
+
+      google.setOnLoadCallback(drawChart<%= i %>);
+
+      function drawChart<%= i %>() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Date');
+        <% graph[:cohorts].each do |cohort| %>
+          data.addColumn('number', '<%= cohort[:name] %>');
+        <% end %>
+        <% graph[:cohorts].each_with_index do |cohort, i| %>
+          var columnData = [
+            <%= cohort[:values].collect{|s| "[new Date(#{s.time.to_i}),#{s.value}],"}.join %>
+          ];
+          var lastIndex = data.addRows(columnData.length);
+          for (var i = 0; i < columnData.length; i++)
+          {
+            data.setValue(lastIndex-i, 0, columnData[i][0]); 
+            data.setValue(lastIndex-i, <%= i %>+1, columnData[i][1]);  
+          }
+        <% end %>
+
+        // Set chart options
+        var options = {'title':'<%= graph[:name] %>',
+                       'width':'100%',
+                       'height':400,
+                       'vAxis': {'minValue':0, 'maxValue':100}};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div_<%= i %>'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div id="chart_div_<%= i %>"></div>
+  </div>
+<% end %>

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723172440) do
+ActiveRecord::Schema.define(:version => 20120809045440) do
+
+  create_table "statistics", :force => true do |t|
+    t.string   "name"
+    t.float    "value"
+    t.datetime "time"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.text     "cohort_name"
+    t.text     "cohort_group"
+    t.integer  "sample_size"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"
